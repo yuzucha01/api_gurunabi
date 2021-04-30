@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ぐるなびAPIテスト</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  </head>
+  <body>
+    <input type="text" id="key" placeholder="アクセスキーを入力" /><input
+      type="button"
+      id="submit"
+      value="送信"
+    />
+    <table id="table" border="1">
+      <tr>
+        <th>店舗名</th>
+        <th>営業時間</th>
+      </tr>
+    </table>
+
+    <script>
+      const showResult = (result) => {
+        result.rest.map((item) => {
+          $("#table").append(
+            `<tr><td>${item.name}</td><td>${item.opentime}</td></tr>`
+          );
+        });
+      };
+
+      $(function () {
+        const url = "https://api.gnavi.co.jp/RestSearchAPI/v3/";
+        const params = {
+          keyid: "",
+          latitude: 34.702492,
+          longitude: 135.495965,
+          range: 3,
+        };
+
+        $("#submit").on("click", () => {
+          params.keyid = $("#key").val();
+          $.getJSON(url, params, (result) => {
+            showResult(result);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
